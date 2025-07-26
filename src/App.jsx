@@ -365,7 +365,7 @@ function App() {
       height: '0px',
       background: '#e5e7eb',
       borderTop: '1px dotted #9ca3af',
-      marginLeft: '-20px',
+      marginLeft: '-2000px',
       marginBottom: '20px',
     },
     yAxisLabel: {
