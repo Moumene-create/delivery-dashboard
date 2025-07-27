@@ -2,7 +2,8 @@ import { useState } from 'react'
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
-
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [anomaliesExpanded, setAnomaliesExpanded] = useState(false);
   const showPage = (page) => {
     setActiveTab(page);
   };
@@ -26,10 +27,33 @@ function App() {
       backgroundColor: '#f8fafc'
     },
     sidebar: {
-      width: '250px',
+      width: sidebarOpen ? '250px' : '0',
       background: 'white',
       boxShadow: '2px 0 10px rgba(0,0,0,0.1)',
-      padding: '20px'
+      padding: sidebarOpen ? '20px' : '0',
+      overflow: 'hidden',
+      transition: 'all 0.3s ease'
+    },
+    menuItemWithArrow: {
+      width: '100%',
+      padding: '10px 15px',
+      marginBottom: '5px',
+      background: 'none',
+      border: 'none',
+      borderRadius: '8px',
+      textAlign: 'left',
+      cursor: 'pointer',
+      transition: 'all 0.2s',
+      color: '#000000'
+    },
+    arrow: {
+      transition: 'transform 0.3s ease',
+      fontSize: '14px',
+      fontWeight: '300',
+      display: 'inline-block'
+    },
+    arrowExpanded: {
+      transform: 'rotate(45deg)'
     },
     sidebarTitle: {
       fontSize: '20px',
@@ -37,6 +61,15 @@ function App() {
       marginBottom: '20px',
       color: '#000000ff',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+    },
+    hamburgerBtn: {
+      background: 'none',
+      border: 'none',
+      fontSize: '20px',
+      cursor: 'pointer',
+      padding: '5px',
+      marginRight: '15px',
+      color: 'black'
     },
     menuItem: {
       width: '100%',
@@ -47,14 +80,15 @@ function App() {
       borderRadius: '8px',
       textAlign: 'left',
       cursor: 'pointer',
-      transition: 'all 0.2s'
+      transition: 'all 0.2s',
+      color: '#000000'  // ← Add this line (black text)
     },
     menuItemActive: {
       width: '100%',
       padding: '10px 15px',
       marginBottom: '5px',
-      background: '#000',
-      color: 'white',
+      background: '#000000',  // ← Change this to black background
+      color: '#ffffff',       // ← Change this to white text
       border: 'none',
       borderRadius: '8px',
       textAlign: 'left',
@@ -109,11 +143,14 @@ function App() {
       display: 'grid',
       gridTemplateColumns: 'repeat(4, 1fr)',
       gap: '20px',
-      marginBottom: '30px'
+      marginBottom: '30px',
+      fontSize: '100px',
+      fontWeight: '700'
     },
     statCard: {
       background: 'linear-gradient(135deg, #3b82f6, #1e40af)',
       color: 'white',
+      fontSize: '100px',
       padding: '25px',
       borderRadius: '12px',
       boxShadow: '0 4px 15px rgba(59, 130, 246, 0.3)',
@@ -122,6 +159,7 @@ function App() {
     statCardBlue800: {
       background: 'linear-gradient(135deg, #1e40af, #1e3a8a)',
       color: 'white',
+      fontSize: '100px',
       padding: '25px',
       borderRadius: '12px',
       boxShadow: '0 4px 15px rgba(30, 64, 175, 0.3)'
@@ -129,6 +167,7 @@ function App() {
     statCardBlue700: {
       background: 'linear-gradient(135deg, #1d4ed8, #1e40af)',
       color: 'white',
+      fontSize: '100px',
       padding: '25px',
       borderRadius: '12px',
       boxShadow: '0 4px 15px rgba(29, 78, 216, 0.3)'
@@ -296,32 +335,45 @@ function App() {
     countryBoxes: {
       display: 'flex',
       justifyContent: 'space-between',
-      marginBottom: '15px'
+      marginBottom: '15px',
+
     },
     countryBoxLight: {
       padding: '8px 16px',
       borderRadius: '6px',
       fontWeight: '500',
       background: '#e5e7eb',
-      color: '#374151'
+      color: '#374151',
+      maginLeft: '100px',
     },
     countryBoxDark: {
       padding: '8px 16px',
       borderRadius: '6px',
       fontWeight: '500',
       background: '#6b7280',
-      color: 'white'
+      color: 'white',
+      maginLeft: '100px',
     },
-
+    // Add this new style
+    chartsGridSmall: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: '20px',
+      marginBottom: '30px'
+    },
     horizontalBars: {
       display: 'flex',
       flexDirection: 'column',
-      gap: '15px'
+      gap: '15px',
+      marginTop: '20px',
+      marginLeft: '-60px',
+      marginRight: '40px',
+      color: '#374151',
     },
     horizontalBar: {
       display: 'flex',
       alignItems: 'center',
-      gap: '15px'
+      gap: '15px',
     },
     barLabelLeft: {
       width: '120px',
@@ -346,7 +398,7 @@ function App() {
       width: '89%',
       height: '250px',
       paddingLeft: '40px',
-      paddingBottom: '30px'
+      paddingBottom: '-20px'
     },
     xAxisLine: {
       position: 'absolute',
@@ -365,7 +417,7 @@ function App() {
       height: '0px',
       background: '#e5e7eb',
       borderTop: '1px dotted #9ca3af',
-      marginLeft: '-2000px',
+      marginLeft: '-20px',
       marginBottom: '20px',
     },
     yAxisLabel: {
@@ -383,84 +435,109 @@ function App() {
     <div style={styles.dashboard}>
       {/* Sidebar */}
       <div style={styles.sidebar}>
-        <h2 style={styles.sidebarTitle}>Menu</h2>
-        <nav>
-          <button
-            style={activeTab === 'dashboard' ? styles.menuItemActive : styles.menuItem}
-            onClick={() => showPage('dashboard')}
-            onMouseEnter={(e) => {
-              if (activeTab !== 'dashboard') {
-                e.target.style.backgroundColor = '#f1f5f9';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (activeTab !== 'dashboard') {
-                e.target.style.backgroundColor = 'transparent';
-              }
-            }}
-          >
-            Dashboard
-          </button>
-          <button
-            style={activeTab === 'anomalies' ? styles.menuItemActive : styles.menuItem}
-            onClick={() => showPage('anomalies')}
-            onMouseEnter={(e) => {
-              if (activeTab !== 'anomalies') {
-                e.target.style.backgroundColor = '#f1f5f9';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (activeTab !== 'anomalies') {
-                e.target.style.backgroundColor = 'transparent';
-              }
-            }}
-          >
-            Anomalies
-          </button>
-          <div style={styles.submenu}>
-            <button
-              style={activeTab === 'delivery' ? styles.menuItemActive : styles.menuItem}
-              onClick={() => showPage('delivery')}
-              onMouseEnter={(e) => {
-                if (activeTab !== 'delivery') {
-                  e.target.style.backgroundColor = '#f1f5f9';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (activeTab !== 'delivery') {
-                  e.target.style.backgroundColor = 'transparent';
-                }
-              }}
-            >
-              Delivery
-            </button>
-            <div style={styles.submenu}>
+        {sidebarOpen && (
+          <>
+            <h2 style={styles.sidebarTitle}>Menu</h2>
+            <nav>
               <button
-                style={activeTab === 'more15days' ? styles.menuItemActive : styles.menuItem}
-                onClick={() => showPage('more15days')}
+                style={activeTab === 'dashboard' ? styles.menuItemActive : styles.menuItem}
+                onClick={() => showPage('dashboard')}
                 onMouseEnter={(e) => {
-                  if (activeTab !== 'more15days') {
-                    e.target.style.backgroundColor = '#f1f5f9';
+                  if (activeTab !== 'dashboard') {
+                    e.target.style.backgroundColor = '#197cdfff';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  if (activeTab !== 'more15days') {
+                  if (activeTab !== 'dashboard') {
                     e.target.style.backgroundColor = 'transparent';
                   }
                 }}
               >
-                more than 15 days
+                Dashboard
               </button>
-            </div>
-          </div>
-        </nav>
+
+              <button
+                style={activeTab === 'anomalies' ? styles.menuItemActive : styles.menuItem}
+                onClick={() => {
+                  setAnomaliesExpanded(!anomaliesExpanded);
+                  showPage('anomalies');
+                }}
+                onMouseEnter={(e) => {
+                  if (activeTab !== 'anomalies') {
+                    e.target.style.backgroundColor = '#f1f5f9';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (activeTab !== 'anomalies') {
+                    e.target.style.backgroundColor = 'transparent';
+                  }
+                }}
+              >
+                <span style={{
+                  display: 'inline-block',
+                  marginRight: '8px',
+                  transition: 'transform 0.3s ease',
+                  transform: anomaliesExpanded ? 'rotate(90deg)' : 'rotate(0deg)'
+                }}>
+                  ▶
+                </span>
+                Anomalies
+              </button>
+
+              {anomaliesExpanded && (
+                <div style={styles.submenu}>
+                  <button
+                    style={activeTab === 'delivery' ? styles.menuItemActive : styles.menuItem}
+                    onClick={() => showPage('delivery')}
+                    onMouseEnter={(e) => {
+                      if (activeTab !== 'delivery') {
+                        e.target.style.backgroundColor = '#f1f5f9';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (activeTab !== 'delivery') {
+                        e.target.style.backgroundColor = 'transparent';
+                      }
+                    }}
+                  >
+                    Delivery
+                  </button>
+                  <button
+                    style={activeTab === 'more15days' ? styles.menuItemActive : styles.menuItem}
+                    onClick={() => showPage('more15days')}
+                    onMouseEnter={(e) => {
+                      if (activeTab !== 'more15days') {
+                        e.target.style.backgroundColor = '#f1f5f9';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (activeTag !== 'more15days') {
+                        e.target.style.backgroundColor = 'transparent';
+                      }
+                    }}
+                  >
+                    more than 15 days
+                  </button>
+                </div>
+              )}
+            </nav>
+          </>
+        )}
       </div>
 
       {/* Main Content */}
       <div style={styles.mainContent}>
         {/* Header */}
         <div style={styles.header}>
-          <h1 style={styles.headerTitle}>{getPageTitle()}</h1>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <button
+              style={styles.hamburgerBtn}
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+            >
+              ☰
+            </button>
+            <h1 style={styles.headerTitle}>{getPageTitle()}</h1>
+          </div>
           <div style={styles.headerRight}>
             <input
               type="text"
@@ -484,7 +561,6 @@ function App() {
     </div>
   )
 }
-
 // Dashboard Page Component
 function DashboardPage({ styles }) {
   const originData = [25, 20, 15, 20, 20];
@@ -544,7 +620,10 @@ function DashboardPage({ styles }) {
         <ChartCard title="Delivery Success Rate Over Time" styles={styles}>
           <div style={styles.successChart}></div>
         </ChartCard>
+      </div>
 
+      {/* New row for smaller blocks side by side */}
+      <div style={styles.chartsGridSmall}>
         <ChartCard title="Fastest country to deliver" styles={styles}>
           <CountryDelivery styles={styles} />
         </ChartCard>
@@ -675,12 +754,13 @@ function PieChart({ styles, showGlobe = false, data = [], colors = [], title = "
 }
 
 function BarChart({ styles }) {
+
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const delivered = [60, 80, 70, 90, 75, 65];
   const failed = [30, 20, 25, 35, 15, 25];
 
   const maxValue = 100;
-  const yAxisValues = [0, 25, 50, 75, 100];
+  const yAxisValues = [0, 25, 50, 75];
 
   return (
     <div>
@@ -715,7 +795,7 @@ function BarChart({ styles }) {
           position: 'absolute',
           bottom: '32px',
           left: '42px',
-          right: '0'
+          right: '0',
         }}>
           {days.map((day, i) => (
             <div key={day} style={styles.barGroup}>
@@ -758,22 +838,106 @@ function BarChart({ styles }) {
       </div>
     </div>
   )
+
 }
+
 function DistributionChart({ styles }) {
+  // Generate random statistics
+  const generateRandomStats = () => {
+    const values = Array.from({ length: 100 }, () => Math.floor(Math.random() * 50) + 1);
+    values.sort((a, b) => a - b);
+
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const mean = Math.round(values.reduce((a, b) => a + b, 0) / values.length);
+    const median = values[Math.floor(values.length / 2)];
+
+    // Simple mode calculation (most frequent value)
+    const frequency = {};
+    values.forEach(val => frequency[val] = (frequency[val] || 0) + 1);
+    const mode = parseInt(Object.keys(frequency).reduce((a, b) => frequency[a] > frequency[b] ? a : b));
+
+    return { min, max, mean, median, mode };
+  };
+
+  const stats = generateRandomStats();
+
+  // Sample data for a normal distribution
+  const generateNormalDistribution = () => {
+    const points = [];
+    const mean = stats.mean;
+    const stdDev = 8;
+
+    for (let x = 1; x <= 50; x++) {
+      const y = Math.exp(-0.5 * Math.pow((x - mean) / stdDev, 2)) / (stdDev * Math.sqrt(2 * Math.PI));
+      points.push({ x, y: y * 100 });
+    }
+    return points;
+  };
+
+  const data = generateNormalDistribution();
+  const maxY = Math.max(...data.map(d => d.y));
+
   return (
     <div>
-      <div style={styles.distributionChart}></div>
-      <div style={styles.distributionStats}>
-        <div>
-          <div><strong>mean:</strong> 15</div>
-          <div><strong>max:</strong> 93</div>
+      {/* Distribution chart on top */}
+      <div style={{
+        ...styles.distributionChart,
+        background: 'linear-gradient(135deg, #f0f9ff, #e0f2fe)',
+        border: '1px solid #e5e7eb',
+        borderRadius: '8px',
+        position: 'relative',
+        display: 'flex',
+        alignItems: 'end',
+        justifyContent: 'space-around',
+        padding: '10px',
+        marginBottom: '20px',
+        marginTop: '25px',
+        marginLeft: '0px',
+      }}>
+        {/* Distribution curve using bars */}
+        {data.map((point, index) => (
+          <div
+            key={index}
+            style={{
+              width: '6px',
+              height: `${(point.y / maxY) * 120}px`,
+              background: 'linear-gradient(to top, #3b82f6, #60a5fa)',
+              borderRadius: '2px 2px 0 0',
+              margin: '0 1px'
+            }}
+          />
+        ))}
+
+
+      </div>
+
+      {/* Statistics below like a legend */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr 1fr',
+        gridTemplateRows: '1fr 1fr',
+        marginleft: '50px',
+        gap: '10px',
+        fontSize: '14px'
+      }}>
+        {/* Top row - 3 items */}
+        <div style={styles.legendItem}>
+          <strong>Mean:</strong> {stats.mean}
         </div>
-        <div>
-          <div><strong>mode:</strong> 20</div>
-          <div><strong>min:</strong> 1</div>
+        <div style={styles.legendItem}>
+          <strong>Max:</strong> {stats.max}
         </div>
-        <div style={{ gridColumn: 'span 2' }}>
-          <div><strong>median:</strong> 18</div>
+        <div style={styles.legendItem}>
+          <strong>Min:</strong> {stats.min}
+        </div>
+
+        {/* Bottom row - 2 items */}
+        <div style={styles.legendItem}>
+          <strong>Median:</strong> {stats.median}
+        </div>
+        <div style={styles.legendItem}>
+          <strong>Mode:</strong> {stats.mode}
         </div>
       </div>
     </div>
@@ -784,9 +948,9 @@ function CountryDelivery({ styles }) {
   return (
     <div>
       <div style={styles.countrySection}>
-        <div style={{ fontWeight: '600', marginBottom: '10px', display: 'flex', justifyContent: 'space-between' }}>
-          <span>to</span>
-          <span>from</span>
+        <div style={{ fontWeight: '600', marginBottom: '10px', display: 'flex', justifyContent: 'space-between', marginLeft: '100px' }}>
+          <span style={{ color: 'transparent' }}>to</span>
+          <span style={{ color: 'transparent' }}>from</span>
         </div>
         <div style={styles.countryBoxes}>
           <div style={styles.countryBoxLight}>UA</div>
@@ -794,8 +958,10 @@ function CountryDelivery({ styles }) {
         </div>
       </div>
       <div style={styles.countrySection}>
-        <h4 style={{ fontWeight: '600', marginBottom: '10px' }}>slowest country to deliver</h4>
-        <div style={{ fontWeight: '600', marginBottom: '10px', display: 'flex', justifyContent: 'space-between' }}>
+        <h4 style={{ fontWeight: '600', marginBottom: '10px', color: '#374151', marginLeft: '78px', fontSize: '120%' }}>Slowest country to deliver</h4>
+        <div style={{ fontWeight: '600', marginBottom: '10px', display: 'flex', justifyContent: 'space-between', marginLeft: '100px' }}>
+          <span style={{ color: 'transparent' }}>to</span>
+          <span style={{ color: 'transparent' }}>from</span>
           <span>to</span>
           <span>from</span>
         </div>
@@ -811,10 +977,10 @@ function CountryDelivery({ styles }) {
 function WillayasChart({ styles }) {
   const willayas = [
     { name: 'Alger', percentage: 95 },
-    { name: 'Annaba', percentage: 88 },
-    { name: 'Setif', percentage: 75 },
-    { name: 'Jijel', percentage: 70 },
-    { name: 'Tipaza', percentage: 65 }
+    { name: 'Annaba', percentage: 73 },
+    { name: 'Setif', percentage: 60 },
+    { name: 'Jijel', percentage: 40 },
+    { name: 'Tipaza', percentage: 30 }
   ];
 
   return (
