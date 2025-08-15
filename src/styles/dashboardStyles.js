@@ -42,6 +42,7 @@ export const dashboardStyles = {
   sidebarTitle: {
     fontSize: '20px',
     fontWeight: 'bold',
+
     marginBottom: '20px',
     color: '#000000ff',
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
@@ -88,11 +89,12 @@ export const dashboardStyles = {
   },
   header: {
     background: 'white',
-    padding: '20px 30px',
+    padding: '10px 25px',
     borderBottom: '1px solid #e2e8f0',
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: '-20px',
   },
   headerTitle: {
     fontSize: '24px',
@@ -125,7 +127,7 @@ export const dashboardStyles = {
   },
   statsGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(4, 1fr)',
+    gridTemplateColumns: 'repeat(6, 1fr)',
     gap: '20px',
     marginBottom: '30px',
     fontSize: '100px',
@@ -287,7 +289,7 @@ export const dashboardStyles = {
     display: 'flex',
     justifyContent: 'center',
     gap: '20px',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap', margintop: '20px'
   },
   distributionChart: {
     height: '150px',

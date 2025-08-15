@@ -1,22 +1,24 @@
 import { useState } from 'react';
 import { dashboardStyles } from './styles/dashboardStyles';
-import { Sidebar, Header, DashboardPage, DeliveryPage, More15DaysPage, AnomaliesPage } from './components';
+import { Sidebar, Header, DashboardPage, AlgeriaMapPage } from './components';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [anomaliesExpanded, setAnomaliesExpanded] = useState(false);
-  
+
   const showPage = (page) => {
     setActiveTab(page);
   };
+
 
   const getPageTitle = () => {
     const titles = {
       'dashboard': 'Dashboard',
       'delivery': 'Delivery',
       'more15days': 'More than 15 days',
-      'anomalies': 'Anomalies'
+      'anomalies': 'Anomalies',
+      'algeriamap': 'Algeria Map'
     };
     return titles[activeTab];
   };
@@ -53,9 +55,8 @@ function App() {
         {/* Content */}
         <div style={dashboardStyles.content}>
           {activeTab === 'dashboard' && <DashboardPage styles={dashboardStyles} />}
-          {activeTab === 'delivery' && <DeliveryPage styles={dashboardStyles} />}
-          {activeTab === 'more15days' && <More15DaysPage styles={dashboardStyles} />}
-          {activeTab === 'anomalies' && <AnomaliesPage styles={dashboardStyles} />}
+
+          {activeTab === 'algeriamap' && <AlgeriaMapPage styles={dashboardStyles} />}
         </div>
       </div>
     </div>

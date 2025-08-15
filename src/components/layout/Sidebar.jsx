@@ -1,11 +1,20 @@
 import React from 'react';
 
+const logoUrl = "/poste-algerie-seeklogo.svg";
 function Sidebar({ sidebarOpen, activeTab, anomaliesExpanded, setAnomaliesExpanded, showPage, styles }) {
   if (!sidebarOpen) return null;
 
   return (
     <>
-      <h2 style={styles.sidebarTitle}>Menu</h2>
+      <div style={{
+        display: "flex",
+        justifyContent: "center", // horizontal center
+        alignItems: "center",     // vertical center
+        height: "60px",
+        marginBottom: '20px'     // adjust to your sidebar header height
+      }}>
+        <img src={logoUrl} alt="Menu" style={{ width: 60, height: 60 }} />
+      </div>
       <nav>
         <button
           style={activeTab === 'dashboard' ? styles.menuItemActive : styles.menuItem}
@@ -23,71 +32,25 @@ function Sidebar({ sidebarOpen, activeTab, anomaliesExpanded, setAnomaliesExpand
         >
           Dashboard
         </button>
-
         <button
-          style={activeTab === 'anomalies' ? styles.menuItemActive : styles.menuItem}
-          onClick={() => {
-            setAnomaliesExpanded(!anomaliesExpanded);
-            showPage('anomalies');
-          }}
+          style={activeTab === 'algeriamap' ? styles.menuItemActive : styles.menuItem}
+          onClick={() => showPage('algeriamap')}
           onMouseEnter={(e) => {
-            if (activeTab !== 'anomalies') {
+            if (activeTab !== 'algeriamap') {
               e.target.style.backgroundColor = '#f1f5f9';
             }
           }}
           onMouseLeave={(e) => {
-            if (activeTab !== 'anomalies') {
+            if (activeTab !== 'algeriamap') {
               e.target.style.backgroundColor = 'transparent';
             }
           }}
         >
-          <span style={{
-            display: 'inline-block',
-            marginRight: '8px',
-            transition: 'transform 0.3s ease',
-            transform: anomaliesExpanded ? 'rotate(90deg)' : 'rotate(0deg)'
-          }}>
-            ▶
-          </span>
-          Anomalies
+          Algeria Map
         </button>
 
-        {anomaliesExpanded && (
-          <div style={styles.submenu}>
-            <button
-              style={activeTab === 'delivery' ? styles.menuItemActive : styles.menuItem}
-              onClick={() => showPage('delivery')}
-              onMouseEnter={(e) => {
-                if (activeTab !== 'delivery') {
-                  e.target.style.backgroundColor = '#f1f5f9';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (activeTab !== 'delivery') {
-                  e.target.style.backgroundColor = 'transparent';
-                }
-              }}
-            >
-              Delivery
-            </button>
-            <button
-              style={activeTab === 'more15days' ? styles.menuItemActive : styles.menuItem}
-              onClick={() => showPage('more15days')}
-              onMouseEnter={(e) => {
-                if (activeTab !== 'more15days') {
-                  e.target.style.backgroundColor = '#f1f5f9';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (activeTab !== 'more15days') {
-                  e.target.style.backgroundColor = 'transparent';
-                }
-              }}
-            >
-              more than 15 days
-            </button>
-          </div>
-        )}
+
+
       </nav>
     </>
   );

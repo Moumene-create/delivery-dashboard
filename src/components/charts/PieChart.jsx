@@ -1,41 +1,69 @@
-import React from 'react';
+import React from "react";
+import {
+  PieChart as RechartsPieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend
+} from "recharts";
 
-function PieChart({ styles, showGlobe = false, data = [], colors = [], title = "" }) {
-  const defaultData = [25, 20, 15, 20, 20];
-  const defaultColors = ['#3b82f6', '#6366f1', '#8b5cf6', '#06b6d4', '#0891b2'];
+function PieChart({
+  styles,
+  data = [],
+  colors = [],
+  title = "",
+  showLabels = true
+}) {
 
-  let gradientStops = '';
-  let currentDegree = 0;
-  const effectiveData = data.length > 0 ? data : defaultData;
-  const effectiveColors = colors.length > 0 ? colors : defaultColors;
 
-  effectiveData.forEach((percentage, index) => {
-    const startDegree = currentDegree;
-    const endDegree = currentDegree + (percentage / 100) * 360;
-    gradientStops += `${effectiveColors[index]} ${startDegree}deg ${endDegree}deg${index < effectiveData.length - 1 ? ', ' : ''}`;
-    currentDegree = endDegree;
-  });
+  const effectiveData = data.length > 0 ? data : [];
+  const effectiveColors =
+    colors.length > 0 ? colors : colors;
 
-  const pieStyle = {
-    ...styles.pieCircle,
-    background: `conic-gradient(${gradientStops})`,
+  const containerStyle = styles?.pieChart || {
+    backgroundColor: "white",
+    borderRadius: "8px",
+    padding: "20px",
+    border: "1px solid #e5e5e5",
+    margin: "10px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
   };
 
   return (
-    <div style={styles.pieChart}>
-      <div style={pieStyle}>
-        <div style={styles.pieInner}></div>
-        {showGlobe && <span style={{ position: 'absolute', fontSize: '30px' }}>🌍</span>}
-      </div>
+    <div style={containerStyle}>
 
-      <div style={styles.pieLegend}>
-        {effectiveData.map((percentage, index) => (
-          <div key={index} style={styles.legendItem}>
-            <div style={{ ...styles.legendColor, backgroundColor: effectiveColors[index] }}></div>
-            <span>{showGlobe ? ['USA', 'France', 'Germany', 'China', 'Japan'][index] : `Category ${index + 1}`} ({percentage}%)  </span>
-          </div>
-        ))}
-      </div>
+      <RechartsPieChart width={250} height={250} >
+        <Pie
+          data={effectiveData}
+          cx="50%"
+          cy="50%"
+          innerRadius={40}
+          outerRadius={80}
+          paddingAngle={2}
+          dataKey="value"
+          style={{ outline: 'none' }}
+        >
+          {effectiveData.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              style={{ outline: 'none' }}
+              fill={effectiveColors[index % effectiveColors.length]}
+            />
+          ))}
+        </Pie>
+        <Tooltip
+          formatter={(value, name) => [`${value}%`, name]}
+
+          contentStyle={{
+            backgroundColor: "white",
+            border: "1px solid #E5E7EB",
+            borderRadius: "8px"
+          }}
+        />
+        {showLabels && <Legend />}
+      </RechartsPieChart>
     </div>
   );
 }

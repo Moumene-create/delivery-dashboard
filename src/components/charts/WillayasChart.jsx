@@ -18,7 +18,7 @@ function WillayasChart({ styles }) {
             <div
               style={{
                 ...styles.barFill,
-                width: `${willaya.percentage}%`
+                width: `${willaya.percentage}%`,
               }}
             ></div>
           </div>
