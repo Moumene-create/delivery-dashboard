@@ -27,7 +27,7 @@ function BarChart({ styles, data = [], title = "" }) {
       backgroundColor: 'transparent',
       marginLeft: '-70px',
       marginRight: '-20px',
-      marginTop: '-35px',
+      marginTop: '-30px',
     }}>
       {title && (
         <h2 style={{
@@ -35,7 +35,8 @@ function BarChart({ styles, data = [], title = "" }) {
           fontWeight: 'bold',
           textAlign: 'center',
           margin: '0 0 20px 0',
-          marginBottom: '-10px',
+          marginBottom: '10px',
+          marginTop: '-15px',
           color: '#374151',
         }}>
           <span style={{ color: '#374151' }}>colis</span>{' '}

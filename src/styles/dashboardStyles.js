@@ -127,17 +127,17 @@ export const dashboardStyles = {
   },
   statsGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(6, 1fr)',
+    gridTemplateColumns: 'repeat(12, 1fr)',
     gap: '20px',
     marginBottom: '30px',
     fontSize: '100px',
-    fontWeight: '700'
+    fontWeight: '400'
   },
   statCard: {
     background: 'linear-gradient(135deg, #3b82f6, #1e40af)',
     color: 'white',
     fontSize: '100px',
-    padding: '25px',
+    padding: '10px',
     borderRadius: '12px',
     boxShadow: '0 4px 15px rgba(59, 130, 246, 0.3)'
   },
@@ -146,7 +146,7 @@ export const dashboardStyles = {
     color: 'white',
     fontSize: '100px',
     padding: '25px',
-    borderRadius: '12px',
+    borderRadius: '120px',
     boxShadow: '0 4px 15px rgba(30, 64, 175, 0.3)'
   },
   statCardBlue700: {
@@ -167,7 +167,7 @@ export const dashboardStyles = {
   statTitle: {
     fontSize: '100px',
     opacity: 0.9,
-    marginBottom: '10px'
+    marginBottom: 'auto'
   },
   statValue: {
     fontSize: '32px',

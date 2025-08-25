@@ -162,7 +162,7 @@ function AlgeriaMapPage({ styles }) {
     }, [sidebarOpen, updateMapDimensions]);
 
     const calculateScale = () => {
-        const baseScale = 950;
+        const baseScale = 1050;
         const aspectRatio = mapDimensions.width / mapDimensions.height;
         return aspectRatio > 1.5
             ? baseScale * (mapDimensions.height / 400)
@@ -231,7 +231,7 @@ function AlgeriaMapPage({ styles }) {
                 }}>
                     <div style={{
                         display: 'grid',
-                        gridTemplateColumns: sidebarOpen ? '1.25fr 1fr' : '1.25fr 1fr',
+                        gridTemplateColumns: sidebarOpen ? '1.25fr 1fr' : '1.25fr 1.5fr',
                         gap: '20px',
                         marginBottom: '20px',
                         transition: 'all 0.3s ease'
