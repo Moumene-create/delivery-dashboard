@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 
 const StatCard = ({ title, value, color = '#1e40af', onClick, isSelected = false }) => {
   return (
@@ -84,7 +85,9 @@ const StatCard = ({ title, value, color = '#1e40af', onClick, isSelected = false
   );
 };
 
-const StatCards = ({ stats = [], onCardClick, lineChart }) => {
+
+
+const StatCards = ({ stats, onCardClick, lineChart }) => {
   const [selectedCard, setSelectedCard] = useState(null);
 
   const handleCardClick = (stat, index) => {

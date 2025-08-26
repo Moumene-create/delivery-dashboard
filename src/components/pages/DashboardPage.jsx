@@ -2,10 +2,55 @@ import React, { useState } from 'react';
 import { StatCards, ChartCard, Top10List } from '../ui';
 import { PieChart, BarChart, LineChart, WillayasChart } from '../charts';
 import { stats } from '../constants'
+import { useEffect } from 'react';
+
+const getstates = async (path) => {
+  const response = await fetch(path);
+  const data = await response.json();
+
+  const kpi = data.donnees.kpi;
+
+  const mapping = {
+    "Nombre de dépêches pré-arrivées": "data1",
+    "Nombre denvois livrés": "data2",
+    "Nombre denvois livrés dès la première tentative (1 échec)": "data3",
+    "Nombre denvois non livrés": "data4",
+    "Taux de livraison": "data5",
+    "Taux de livraison dans les délais": "data6",
+    "Nombre denvois en dépassement du délai de garde": "data7",
+    "Nombre denvois bloqués en douane": "data8",
+    "Nombre denvois retournés": "data9",
+    "Délai de concentration": "data10",
+    "Délai dacheminement des envois de bout en bout": "data11",
+    "Délai de concentration des envois": "data12",
+    "Nombre denvois non scannés": "data13"
+  };
+
+  const color = "#2e75e7ff";
+
+  const stats = [];
+
+  for (const [title, datakey] of Object.entries(mapping)) {
+    const value = kpi[title];
+    const chartData = kpi[datakey] || [];
+    stats.push({
+      title,
+      value,
+      color,
+      chartData
+    });
+  }
+
+  return stats;
+}
+
+
 
 function DashboardPage({ styles }) {
   // State to manage which stat card is selected
   const [selectedCard, setSelectedCard] = useState(null);
+  const [stats, setStats] = useState([]);
+
 
   const originData = [25, 20, 15, 20, 20];
   const originColors = ['#000000ff', '#171720ff', '#29292bff', '#353838ff', '#5c5f5fff'];
@@ -61,6 +106,14 @@ function DashboardPage({ styles }) {
   ];
 
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getstates("/donnees_algerie.json");
+      setStats(data);
+    };
+    fetchData();
+  }, []);
+  console.log(stats);
 
   // Handle card clicks
   const handleCardClick = (selectedStat, selectedIndex) => {
