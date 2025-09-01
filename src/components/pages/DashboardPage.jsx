@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 const getstates = async (path) => {
   const response = await fetch(path);
   const data = await response.json();
-
+  const other = data.donnees.other;
   const kpi = data.donnees.kpi;
 
   const mapping = {
@@ -41,8 +41,25 @@ const getstates = async (path) => {
     });
   }
 
+  stats.push({
+    title: "Top Cities",
+    chartData: other.topcities || []
+  });
+
+  stats.push({
+    title: "Worst Cities",
+    chartData: other.worstcities || []
+  });
+
+
+  stats.push({
+    title: "Bar Data",
+    chartData: other.bardata || []
+  });
+
   return stats;
 }
+
 
 
 
@@ -51,12 +68,6 @@ function DashboardPage({ styles }) {
   const [selectedCard, setSelectedCard] = useState(null);
   const [stats, setStats] = useState([]);
 
-
-  const originData = [25, 20, 15, 20, 20];
-  const originColors = ['#000000ff', '#171720ff', '#29292bff', '#353838ff', '#5c5f5fff'];
-
-  const destinationData = [30, 15, 25, 10, 20];
-  const destinationColors = ['#000000ff', '#171720ff', '#29292bff', '#353838ff', '#5c5f5fff'];
 
   const chartData = [
     { name: 'Jan', value: 400 },
@@ -113,6 +124,7 @@ function DashboardPage({ styles }) {
     };
     fetchData();
   }, []);
+
   console.log(stats);
 
   // Handle card clicks
@@ -125,7 +137,7 @@ function DashboardPage({ styles }) {
   return (
     <div>
       <StatCards
-        stats={stats}
+        stats={stats.slice(0, 13)}
         onCardClick={handleCardClick}
         selectedCard={selectedCard}
         setSelectedCard={setSelectedCard}
@@ -149,7 +161,7 @@ function DashboardPage({ styles }) {
           display: 'flex',
         }}>
           <LineChart
-            data={chartData}
+            data={stats[4]?.chartData}
             title="Evolution Mensuelle du taux de livraison"
             showLabels={true} />
         </div>
@@ -212,6 +224,25 @@ function DashboardPage({ styles }) {
         </div>
       </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <div style={{
         display: "flex",
         gap: "20px",
@@ -235,9 +266,9 @@ function DashboardPage({ styles }) {
         }}>
           <Top10List
             title="willayas avec le meiller taux de livraisons"
-            data={topCitiesData}
+            data={stats[13]?.chartData}
             labelKey="name"
-            valueKey="visits"
+            valueKey="taux_de_livraison"
             showNumbers={true}
             showValues={true}
           />
@@ -254,7 +285,7 @@ function DashboardPage({ styles }) {
           alignItems: 'center',
           justifyContent: 'center'
         }}>
-          <BarChart data={defaultData} styles={styles} title="collis livrés" />
+          <BarChart data={stats[15]?.chartData} styles={styles} title="collis livrés" />
 
         </div>
         <div style={{
@@ -272,58 +303,15 @@ function DashboardPage({ styles }) {
         }}>
           <Top10List
             title="willayas avec le meiller taux de livraisons"
-            data={topCitiesData}
+            data={stats[14]?.chartData}
             labelKey="name"
-            valueKey="visits"
+            valueKey="taux_de_livraison"
             showNumbers={true}
             showValues={true}
           />
         </div>
       </div>
 
-      <div style={{
-        display: "flex",
-        gap: "20px",
-        alignItems: "stretch",
-        marginBottom: "10px"
-      }}>
-        <div style={{
-          backgroundColor: 'white',
-          borderRadius: '8px',
-          padding: '19px',
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-          border: '1px solid #e5e5e5',
-          flex: 1.5,
-          height: '260px',
-          display: 'flex',
-        }}>
-          <LineChart
-            data={chartData}
-            title="Evolution Mensuelle"
-            showLabels={true} />
-        </div>
-        <div style={{
-          backgroundColor: 'white',
-          borderRadius: '8px',
-          padding: '20px',
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-          border: '1px solid #e5e5e5',
-          flex: 1.5,
-          height: '290px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}>
-          <PieChart
-            styles={styles}
-            data={pieData2}
-            colors={pieColors}
-            title="Device Usage"
-            showLabels={true}
-          />
-        </div>
-      </div>
     </div>
   );
 }

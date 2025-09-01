@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { dashboardStyles } from './styles/dashboardStyles';
-import { Sidebar, Header, DashboardPage, AlgeriaMapPage } from './components';
+import { Sidebar, Header, DashboardPage, AlgeriaMapPage, Bureauxdeposte } from './components';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [anomaliesExpanded, setAnomaliesExpanded] = useState(false);
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
 
   const showPage = (page) => {
     setActiveTab(page);
@@ -15,9 +18,7 @@ function App() {
   const getPageTitle = () => {
     const titles = {
       'dashboard': 'Dashboard',
-      'delivery': 'Delivery',
-      'more15days': 'More than 15 days',
-      'anomalies': 'Anomalies',
+      'bureauxdeposte': 'Bureaux de poste',
       'algeriamap': 'Algeria Map'
     };
     return titles[activeTab];
@@ -35,9 +36,8 @@ function App() {
         <Sidebar
           sidebarOpen={sidebarOpen}
           activeTab={activeTab}
-          anomaliesExpanded={anomaliesExpanded}
-          setAnomaliesExpanded={setAnomaliesExpanded}
           showPage={showPage}
+          closeSidebar={closeSidebar}
           styles={dashboardStyles}
         />
       </div>
@@ -55,7 +55,7 @@ function App() {
         {/* Content */}
         <div style={dashboardStyles.content}>
           {activeTab === 'dashboard' && <DashboardPage styles={dashboardStyles} />}
-
+          {activeTab === 'bureauxdeposte' && <Bureauxdeposte styles={dashboardStyles} />}
           {activeTab === 'algeriamap' && <AlgeriaMapPage styles={dashboardStyles} />}
         </div>
       </div>

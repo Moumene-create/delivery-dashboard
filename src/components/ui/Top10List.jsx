@@ -105,9 +105,7 @@ const Top10List = ({
                                 marginLeft: '10px',
                                 flexShrink: 0
                             }}>
-                                {typeof item[valueKey] === 'number'
-                                    ? item[valueKey].toLocaleString()
-                                    : item[valueKey]
+                                {item[valueKey]
                                 }
                             </span>
                         )}

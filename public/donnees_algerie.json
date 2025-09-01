@@ -1,209 +1,209 @@
 {
   "metadata": {
-    "date_creation": "2025-08-25 22:52:13"
+    "date_creation": "2025-08-28 14:09:13"
   },
   "donnees": {
-    "derniere_mise_a_jour": "2025-08-19",
+    "derniere_mise_a_jour": "2025-08-15",
     "kpi": {
-      "Nombre de dépêches pré-arrivées": 355,
-      "Nombre denvois livrés": 1824,
-      "Nombre denvois livrés dès la première tentative (1 échec)": 114,
-      "Nombre denvois non livrés": 27373,
-      "Taux de livraison": 6.25,
-      "Taux de livraison dans les délais": 3.0,
-      "Nombre denvois en dépassement du délai de garde": 1009,
-      "Nombre denvois bloqués en douane": 764,
-      "Nombre denvois retournés": 84,
-      "Délai de concentration": 10,
-      "Délai dacheminement des envois de bout en bout": 10,
-      "Délai de concentration des envois": 6,
-      "Nombre denvois non scannés": 243,
+      "Nombre de dépêches pré-arrivées": 397,
+      "Nombre denvois livrés": 74,
+      "Nombre denvois livrés dès la première tentative (1 échec)": 6,
+      "Nombre denvois non livrés": 1406,
+      "Taux de livraison": 5.0,
+      "Taux de livraison dans les délais": 1.4,
+      "Nombre denvois en dépassement du délai de garde": 51,
+      "Nombre denvois bloqués en douane": 6,
+      "Nombre denvois retournés": 66,
+      "Délai de concentration": 3,
+      "Délai dacheminement des envois de bout en bout": 15,
+      "Délai de concentration des envois": 18,
+      "Nombre denvois non scannés": 527,
       "data1": [
         {
           "name": "Jan",
-          "value": 460
+          "value": 107
         },
         {
           "name": "Feb",
-          "value": 410
+          "value": 101
         },
         {
           "name": "Mar",
-          "value": 330
+          "value": 322
         },
         {
           "name": "Apr",
-          "value": 198
+          "value": 445
         },
         {
           "name": "May",
-          "value": 435
+          "value": 357
         },
         {
           "name": "Jun",
-          "value": 168
+          "value": 128
         },
         {
           "name": "Jul",
-          "value": 118
+          "value": 378
         },
         {
           "name": "Aug",
-          "value": 344
+          "value": 469
         }
       ],
       "data2": [
         {
           "name": "Jan",
-          "value": 1434
+          "value": 1786
         },
         {
           "name": "Feb",
-          "value": 321
+          "value": 2024
         },
         {
           "name": "Mar",
-          "value": 229
+          "value": 1491
         },
         {
           "name": "Apr",
-          "value": 335
+          "value": 1185
         },
         {
           "name": "May",
-          "value": 1263
+          "value": 631
         },
         {
           "name": "Jun",
-          "value": 1339
+          "value": 1926
         },
         {
           "name": "Jul",
-          "value": 1484
+          "value": 5056
         },
         {
           "name": "Aug",
-          "value": 3698
+          "value": 373
         }
       ],
       "data3": [
         {
           "name": "Jan",
-          "value": 4179
+          "value": 3880
         },
         {
           "name": "Feb",
-          "value": 4427
+          "value": 2407
         },
         {
           "name": "Mar",
-          "value": 3287
+          "value": 2904
         },
         {
           "name": "Apr",
-          "value": 2760
+          "value": 1105
         },
         {
           "name": "May",
-          "value": 3063
+          "value": 2794
         },
         {
           "name": "Jun",
-          "value": 1846
+          "value": 2413
         },
         {
           "name": "Jul",
-          "value": 2656
+          "value": 1052
         },
         {
           "name": "Aug",
-          "value": 4618
+          "value": 4206
         }
       ],
       "data4": [
         {
           "name": "Jan",
-          "value": 202
+          "value": 302
         },
         {
           "name": "Feb",
-          "value": 159
+          "value": 156
         },
         {
           "name": "Mar",
-          "value": 807
+          "value": 615
         },
         {
           "name": "Apr",
-          "value": 512
+          "value": 110
         },
         {
           "name": "May",
-          "value": 1222
+          "value": 212
         },
         {
           "name": "Jun",
-          "value": 392
+          "value": 492
         },
         {
           "name": "Jul",
-          "value": 389
+          "value": 450
         },
         {
           "name": "Aug",
-          "value": 162
+          "value": 370
         }
       ],
       "data5": [
         {
           "name": "Jan",
-          "value": 6.25
+          "value": 7.64
         },
         {
           "name": "Feb",
-          "value": 6.25
+          "value": 5.2
         },
         {
           "name": "Mar",
-          "value": 6.25
+          "value": 5.88
         },
         {
           "name": "Apr",
-          "value": 6.25
+          "value": 7.09
         },
         {
           "name": "May",
-          "value": 6.25
+          "value": 10.0
         },
         {
           "name": "Jun",
-          "value": 6.25
+          "value": 11.08
         },
         {
           "name": "Jul",
-          "value": 6.25
+          "value": 14.26
         },
         {
           "name": "Aug",
-          "value": 6.25
+          "value": 7.09
         }
       ],
       "data6": [
         {
           "name": "Jan",
-          "value": 0.7
+          "value": 2.6
         },
         {
           "name": "Feb",
-          "value": 1.0
+          "value": 3.6
         },
         {
           "name": "Mar",
-          "value": 5.4
+          "value": 4.5
         },
         {
           "name": "Apr",
-          "value": 5.9
+          "value": 4.9
         },
         {
           "name": "May",
@@ -211,199 +211,131 @@
         },
         {
           "name": "Jun",
-          "value": 0.3
+          "value": 1.3
         },
         {
           "name": "Jul",
-          "value": 0.4
+          "value": 4.6
         },
         {
           "name": "Aug",
-          "value": 4.1
+          "value": 1.3
         }
       ],
       "data7": [
         {
           "name": "Jan",
-          "value": 204
+          "value": 62
         },
         {
           "name": "Feb",
-          "value": 879
+          "value": 52
         },
         {
           "name": "Mar",
-          "value": 76
+          "value": 66
         },
         {
           "name": "Apr",
-          "value": 877
+          "value": 4
         },
         {
           "name": "May",
-          "value": 1378
+          "value": 24
         },
         {
           "name": "Jun",
-          "value": 1416
+          "value": 4
         },
         {
           "name": "Jul",
-          "value": 263
+          "value": 35
         },
         {
           "name": "Aug",
-          "value": 1816
+          "value": 21
         }
       ],
       "data8": [
         {
           "name": "Jan",
-          "value": 277
+          "value": 18
         },
         {
           "name": "Feb",
-          "value": 487
+          "value": 8
         },
         {
           "name": "Mar",
-          "value": 786
+          "value": 10
         },
         {
           "name": "Apr",
-          "value": 111
+          "value": 5
         },
         {
           "name": "May",
-          "value": 415
+          "value": 20
         },
         {
           "name": "Jun",
-          "value": 479
+          "value": 2
         },
         {
           "name": "Jul",
-          "value": 602
+          "value": 7
         },
         {
           "name": "Aug",
-          "value": 806
+          "value": 9
         }
       ],
       "data9": [
         {
           "name": "Jan",
-          "value": 1579
+          "value": 25
         },
         {
           "name": "Feb",
-          "value": 365
+          "value": 72
         },
         {
           "name": "Mar",
-          "value": 1081
+          "value": 14
         },
         {
           "name": "Apr",
-          "value": 1616
+          "value": 13
         },
         {
           "name": "May",
-          "value": 1769
+          "value": 35
         },
         {
           "name": "Jun",
-          "value": 913
+          "value": 64
         },
         {
           "name": "Jul",
-          "value": 529
+          "value": 36
         },
         {
           "name": "Aug",
-          "value": 1766
+          "value": 47
         }
       ],
       "data10": [
         {
           "name": "Jan",
-          "value": 12
+          "value": 3
         },
         {
           "name": "Feb",
-          "value": 22
-        },
-        {
-          "name": "Mar",
-          "value": 19
-        },
-        {
-          "name": "Apr",
           "value": 17
         },
         {
-          "name": "May",
-          "value": 14
-        },
-        {
-          "name": "Jun",
-          "value": 8
-        },
-        {
-          "name": "Jul",
-          "value": 19
-        },
-        {
-          "name": "Aug",
-          "value": 15
-        }
-      ],
-      "data11": [
-        {
-          "name": "Jan",
-          "value": 6
-        },
-        {
-          "name": "Feb",
-          "value": 1
-        },
-        {
           "name": "Mar",
-          "value": 17
-        },
-        {
-          "name": "Apr",
-          "value": 1
-        },
-        {
-          "name": "May",
-          "value": 11
-        },
-        {
-          "name": "Jun",
-          "value": 21
-        },
-        {
-          "name": "Jul",
-          "value": 20
-        },
-        {
-          "name": "Aug",
-          "value": 8
-        }
-      ],
-      "data12": [
-        {
-          "name": "Jan",
-          "value": 5
-        },
-        {
-          "name": "Feb",
-          "value": 12
-        },
-        {
-          "name": "Mar",
-          "value": 5
+          "value": 3
         },
         {
           "name": "Apr",
@@ -411,53 +343,255 @@
         },
         {
           "name": "May",
-          "value": 6
+          "value": 1
         },
         {
           "name": "Jun",
-          "value": 11
+          "value": 5
         },
         {
           "name": "Jul",
-          "value": 12
+          "value": 14
         },
         {
           "name": "Aug",
+          "value": 9
+        }
+      ],
+      "data11": [
+        {
+          "name": "Jan",
+          "value": 20
+        },
+        {
+          "name": "Feb",
+          "value": 1
+        },
+        {
+          "name": "Mar",
+          "value": 6
+        },
+        {
+          "name": "Apr",
+          "value": 15
+        },
+        {
+          "name": "May",
+          "value": 9
+        },
+        {
+          "name": "Jun",
+          "value": 18
+        },
+        {
+          "name": "Jul",
+          "value": 18
+        },
+        {
+          "name": "Aug",
+          "value": 12
+        }
+      ],
+      "data12": [
+        {
+          "name": "Jan",
+          "value": 16
+        },
+        {
+          "name": "Feb",
+          "value": 12
+        },
+        {
+          "name": "Mar",
+          "value": 16
+        },
+        {
+          "name": "Apr",
+          "value": 19
+        },
+        {
+          "name": "May",
+          "value": 17
+        },
+        {
+          "name": "Jun",
           "value": 3
+        },
+        {
+          "name": "Jul",
+          "value": 2
+        },
+        {
+          "name": "Aug",
+          "value": 13
         }
       ],
       "data13": [
         {
           "name": "Jan",
-          "value": 229
+          "value": 93
         },
         {
           "name": "Feb",
-          "value": 397
+          "value": 310
         },
         {
           "name": "Mar",
-          "value": 141
+          "value": 672
         },
         {
           "name": "Apr",
-          "value": 919
+          "value": 860
         },
         {
           "name": "May",
-          "value": 719
+          "value": 17
         },
         {
           "name": "Jun",
-          "value": 122
+          "value": 928
         },
         {
           "name": "Jul",
-          "value": 851
+          "value": 86
         },
         {
           "name": "Aug",
-          "value": 851
+          "value": 288
+        }
+      ]
+    },
+    "other": {
+      "topcities": [
+        {
+          "name": "Algiers",
+          "taux_de_livraison": 80
+        },
+        {
+          "name": "Oran",
+          "taux_de_livraison": 75
+        },
+        {
+          "name": "Constantine",
+          "taux_de_livraison": 70
+        },
+        {
+          "name": "Annaba",
+          "taux_de_livraison": 63
+        },
+        {
+          "name": "Blida",
+          "taux_de_livraison": 62
+        },
+        {
+          "name": "Batna",
+          "taux_de_livraison": 60
+        },
+        {
+          "name": "Djelfa",
+          "taux_de_livraison": 59
+        },
+        {
+          "name": "Sétif",
+          "taux_de_livraison": 54
+        },
+        {
+          "name": "Sidi Bel Abbès",
+          "taux_de_livraison": 52
+        },
+        {
+          "name": "Biskra",
+          "taux_de_livraison": 50
+        },
+        {
+          "name": "Tébessa",
+          "taux_de_livraison": 49
+        },
+        {
+          "name": "Tlemcen",
+          "taux_de_livraison": 48
+        }
+      ],
+      "worstcities": [
+        {
+          "name": "Algiers",
+          "taux_de_livraison": 10
+        },
+        {
+          "name": "Oran",
+          "taux_de_livraison": 9
+        },
+        {
+          "name": "Constantine",
+          "taux_de_livraison": 8
+        },
+        {
+          "name": "Annaba",
+          "taux_de_livraison": 7
+        },
+        {
+          "name": "Blida",
+          "taux_de_livraison": 6
+        },
+        {
+          "name": "Batna",
+          "taux_de_livraison": 5
+        },
+        {
+          "name": "Djelfa",
+          "taux_de_livraison": 4
+        },
+        {
+          "name": "Sétif",
+          "taux_de_livraison": 3
+        },
+        {
+          "name": "Sidi Bel Abbès",
+          "taux_de_livraison": 2
+        },
+        {
+          "name": "Biskra",
+          "taux_de_livraison": 1
+        },
+        {
+          "name": "Tébessa",
+          "taux_de_livraison": 0.5
+        },
+        {
+          "name": "Tlemcen",
+          "taux_de_livraison": 0.1
+        }
+      ],
+      "bardata": [
+        {
+          "day": "Mon",
+          "delivered": 60,
+          "failed": 30
+        },
+        {
+          "day": "Tue",
+          "delivered": 80,
+          "failed": 20
+        },
+        {
+          "day": "Wed",
+          "delivered": 70,
+          "failed": 25
+        },
+        {
+          "day": "Thu",
+          "delivered": 90,
+          "failed": 35
+        },
+        {
+          "day": "Fri",
+          "delivered": 75,
+          "failed": 15
+        },
+        {
+          "day": "Sat",
+          "delivered": 65,
+          "failed": 25
         }
       ]
     }

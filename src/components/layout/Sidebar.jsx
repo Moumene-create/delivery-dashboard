@@ -1,8 +1,13 @@
 import React from 'react';
 
 const logoUrl = "/poste-algerie-seeklogo.svg";
-function Sidebar({ sidebarOpen, activeTab, anomaliesExpanded, setAnomaliesExpanded, showPage, styles }) {
+function Sidebar({ sidebarOpen, activeTab, showPage, closeSidebar, styles }) {
   if (!sidebarOpen) return null;
+
+  const handlePageChange = (page) => {
+    showPage(page);
+    closeSidebar(); // Close sidebar after changing page
+  };
 
   return (
     <>
@@ -18,7 +23,7 @@ function Sidebar({ sidebarOpen, activeTab, anomaliesExpanded, setAnomaliesExpand
       <nav>
         <button
           style={activeTab === 'dashboard' ? styles.menuItemActive : styles.menuItem}
-          onClick={() => showPage('dashboard')}
+          onClick={() => handlePageChange('dashboard')}
           onMouseEnter={(e) => {
             if (activeTab !== 'dashboard') {
               e.target.style.backgroundColor = '#197cdfff';
@@ -30,11 +35,11 @@ function Sidebar({ sidebarOpen, activeTab, anomaliesExpanded, setAnomaliesExpand
             }
           }}
         >
-          Dashboard
+          Tableau de bord
         </button>
         <button
           style={activeTab === 'algeriamap' ? styles.menuItemActive : styles.menuItem}
-          onClick={() => showPage('algeriamap')}
+          onClick={() => handlePageChange('algeriamap')}
           onMouseEnter={(e) => {
             if (activeTab !== 'algeriamap') {
               e.target.style.backgroundColor = '#f1f5f9';
@@ -46,11 +51,24 @@ function Sidebar({ sidebarOpen, activeTab, anomaliesExpanded, setAnomaliesExpand
             }
           }}
         >
-          Algeria Map
+          Carte d'algerie
         </button>
-
-
-
+        <button
+          style={activeTab === 'bureauxdeposte' ? styles.menuItemActive : styles.menuItem}
+          onClick={() => handlePageChange('bureauxdeposte')}
+          onMouseEnter={(e) => {
+            if (activeTab !== 'bureauxdeposte') {
+              e.target.style.backgroundColor = '#f1f5f9';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (activeTab !== 'bureauxdeposte') {
+              e.target.style.backgroundColor = 'transparent';
+            }
+          }}
+        >
+          Bureaux de poste
+        </button>
       </nav>
     </>
   );
