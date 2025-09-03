@@ -68,55 +68,6 @@ function DashboardPage({ styles }) {
   const [selectedCard, setSelectedCard] = useState(null);
   const [stats, setStats] = useState([]);
 
-
-  const chartData = [
-    { name: 'Jan', value: 400 },
-    { name: 'Feb', value: 100 },
-    { name: 'Mar', value: 600 },
-    { name: 'Apr', value: 800 },
-    { name: 'May', value: 1500 },
-    { name: 'Jun', value: 900 },
-    { name: 'Jul', value: 700 },
-    { name: 'Aug', value: 600 },
-    { name: 'Sep', value: 800 },
-    { name: 'Oct', value: 500 },
-    { name: 'Nov', value: 700 },
-    { name: 'Dec', value: 600 }
-  ];
-
-  const pieData2 = [
-    { name: 'Maroco', value: 5 },
-    { name: 'Tunisia', value: 10 },
-    { name: 'France', value: 20 },
-    { name: 'U.A', value: 25 },
-    { name: 'Chine', value: 40 },
-  ];
-
-  const defaultData = [
-    { day: 'Mon', delivered: 60, failed: 30 },
-    { day: 'Tue', delivered: 80, failed: 20 },
-    { day: 'Wed', delivered: 70, failed: 25 },
-    { day: 'Thu', delivered: 90, failed: 35 },
-    { day: 'Fri', delivered: 75, failed: 15 },
-    { day: 'Sat', delivered: 65, failed: 25 }
-  ];
-
-  const topCitiesData = [
-    { name: "Algiers", visits: 1250 },
-    { name: "Oran", visits: 980 },
-    { name: "Constantine", visits: 750 },
-    { name: "Annaba", visits: 620 },
-    { name: "Blida", visits: 580 },
-    { name: "Batna", visits: 520 },
-    { name: "Djelfa", visits: 480 },
-    { name: "Sétif", visits: 450 },
-    { name: "Sidi Bel Abbès", visits: 420 },
-    { name: "Biskra", visits: 380 },
-    { name: "Tébessa", visits: 350 },
-    { name: "Tlemcen", visits: 320 }
-  ];
-
-
   useEffect(() => {
     const fetchData = async () => {
       const data = await getstates("/donnees_algerie.json");
