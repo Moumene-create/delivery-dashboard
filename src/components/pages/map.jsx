@@ -1,48 +1,27 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
-import { AlertTriangle, CheckCircle } from "lucide-react";
+import { AlertTriangle, CheckCircle, ChevronDown } from "lucide-react";
 
 import { PieChart, BarChart, LineChart } from '../charts';
 import { Kpi } from '../ui';
-import { wilayaNumbers, alarmDefinitions } from "../constants";
+import { wilayaNumbers, alarmDefinitions, postOffices } from "../constants";
 
 const geoUrl = "/algeria.json";
 
-// Définitions des alarmes avec descriptions et actions
-
-const defaultData = [
-    { day: 'Mon', delivered: 60, failed: 30 },
-    { day: 'Tue', delivered: 80, failed: 20 },
-    { day: 'Wed', delivered: 70, failed: 25 },
-    { day: 'Thu', delivered: 90, failed: 35 },
-    { day: 'Fri', delivered: 75, failed: 15 },
-    { day: 'Sat', delivered: 65, failed: 25 }
-];
-
-const chartData = [
-    { name: 'Jan', value: 400 },
-    { name: 'Feb', value: 100 },
-    { name: 'Mar', value: 600 },
-    { name: 'Apr', value: 800 },
-    { name: 'May', value: 1500 },
-    { name: 'Jun', value: 900 },
-    { name: 'Jul', value: 700 },
-    { name: 'Aug', value: 600 },
-    { name: 'Sep', value: 800 },
-    { name: 'Oct', value: 500 },
-    { name: 'Nov', value: 700 },
-    { name: 'Dec', value: 600 }
-];
 
 function AlgeriaMapPage({ styles }) {
     const [selectedWilaya, setSelectedWilaya] = useState(null);
     const [selectedWilayaData, setSelectedWilayaData] = useState(null);
+    const [selectedWilayaNumber, setSelectedWilayaNumber] = useState(null);
+    const [selectedPostOffice, setSelectedPostOffice] = useState("");
+    const [postOfficeDropdownOpen, setPostOfficeDropdownOpen] = useState(false);
     const [mapDimensions, setMapDimensions] = useState({ width: 800, height: 600 });
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [wilayasData, setWilayasData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const mapContainerRef = useRef(null);
+    const dropdownRef = useRef(null);
 
     useEffect(() => {
         const loadWilayasData = async () => {
@@ -64,6 +43,20 @@ function AlgeriaMapPage({ styles }) {
         };
 
         loadWilayasData();
+    }, []);
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setPostOfficeDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
     }, []);
 
     const findWilayaData = (wilayaName) => {
@@ -96,6 +89,12 @@ function AlgeriaMapPage({ styles }) {
     const getWilayaNumber = (geo) => {
         const wilayaName = getWilayaName(geo);
         return wilayaNumbers[wilayaName] || "??";
+    };
+
+    // Get post offices for selected wilaya
+    const getPostOfficesForWilaya = () => {
+        if (!selectedWilayaNumber || !postOffices) return [];
+        return postOffices[selectedWilayaNumber] || [];
     };
 
     // Vérifier si la wilaya a des alarmes actives
@@ -175,8 +174,16 @@ function AlgeriaMapPage({ styles }) {
         const fullWilayaName = `${wilayaNumber} - ${wilayaName}`;
 
         setSelectedWilaya(fullWilayaName);
+        setSelectedWilayaNumber(wilayaNumber);
+        setSelectedPostOffice(""); // Reset post office selection
+        setPostOfficeDropdownOpen(false); // Close dropdown
         const wilayaData = findWilayaData(wilayaName);
         setSelectedWilayaData(wilayaData);
+    };
+
+    const handlePostOfficeSelect = (postOffice) => {
+        setSelectedPostOffice(postOffice);
+        setPostOfficeDropdownOpen(false);
     };
 
     if (loading) {
@@ -218,6 +225,7 @@ function AlgeriaMapPage({ styles }) {
     }
 
     const activeAlarms = selectedWilayaData ? getActiveAlarms(selectedWilayaData) : [];
+    const currentPostOffices = getPostOfficesForWilaya();
 
     return (
         <div className="app-container">
@@ -287,6 +295,106 @@ function AlgeriaMapPage({ styles }) {
                                     flex: 1
                                 }}
                             >
+                                {/* Post Office Dropdown */}
+                                <div
+                                    ref={dropdownRef}
+                                    style={{
+                                        position: 'absolute',
+                                        top: '15px',
+                                        left: '15px',
+                                        zIndex: 1000,
+                                        minWidth: '190px'
+                                    }}
+                                >
+                                    <div
+                                        onClick={() => {
+                                            if (selectedWilayaNumber && currentPostOffices.length > 0) {
+                                                setPostOfficeDropdownOpen(!postOfficeDropdownOpen);
+                                            }
+                                        }}
+                                        style={{
+                                            background: selectedWilayaNumber ? 'white' : '#f8f9fa',
+                                            border: '1px solid #e0e0e0',
+                                            borderRadius: '8px',
+                                            padding: '10px 12px',
+                                            cursor: selectedWilayaNumber && currentPostOffices.length > 0 ? 'pointer' : 'not-allowed',
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                            fontSize: '0.9rem',
+                                            color: selectedWilayaNumber ? '#333' : '#999',
+                                            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                                            opacity: selectedWilayaNumber && currentPostOffices.length > 0 ? 1 : 0.6
+                                        }}
+                                    >
+                                        <span style={{
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            whiteSpace: 'nowrap',
+                                            flex: 1
+                                        }}>
+                                            {selectedPostOffice ||
+                                                (!selectedWilayaNumber ? 'Select a wilaya first' :
+                                                    currentPostOffices.length === 0 ? 'No post offices available' :
+                                                        'Choisi un bureau de poste')}
+                                        </span>
+                                        {selectedWilayaNumber && currentPostOffices.length > 0 && (
+                                            <ChevronDown
+                                                size={16}
+                                                style={{
+                                                    transform: postOfficeDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                                                    transition: 'transform 0.2s ease'
+                                                }}
+                                            />
+                                        )}
+                                    </div>
+
+                                    {postOfficeDropdownOpen && currentPostOffices.length > 0 && (
+                                        <div style={{
+                                            position: 'absolute',
+                                            top: '100%',
+                                            left: 0,
+                                            right: 0,
+                                            background: 'white',
+                                            border: '1px solid #e0e0e0',
+                                            borderTop: 'none',
+                                            borderRadius: '0 0 8px 8px',
+                                            maxHeight: '200px',
+                                            overflowY: 'auto',
+                                            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                                            zIndex: 1001
+                                        }}>
+                                            {currentPostOffices.map((postOffice, index) => (
+                                                <div
+                                                    key={index}
+                                                    onClick={() => handlePostOfficeSelect(postOffice)}
+                                                    style={{
+                                                        padding: '10px 12px',
+                                                        cursor: 'pointer',
+                                                        borderBottom: index < currentPostOffices.length - 1 ? '1px solid #f0f0f0' : 'none',
+                                                        fontSize: '0.75rem',
+                                                        color: '#333',
+                                                        backgroundColor: selectedPostOffice === postOffice ? '#f0f8ff' : 'transparent',
+                                                        transition: 'background-color 0.2s ease'
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                        if (selectedPostOffice !== postOffice) {
+                                                            e.target.style.backgroundColor = '#f8f9fa';
+                                                        }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                        if (selectedPostOffice !== postOffice) {
+                                                            e.target.style.backgroundColor = 'transparent';
+                                                        }
+                                                    }}
+                                                >
+                                                    {postOffice}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+
                                 <ComposableMap
                                     projection="geoMercator"
                                     projectionConfig={{
@@ -395,6 +503,36 @@ function AlgeriaMapPage({ styles }) {
                                         {selectedWilayaData.nom} - Statistiques
                                     </h3>
 
+                                    {/* Selected Post Office Display */}
+                                    {selectedPostOffice && (
+                                        <div style={{
+                                            background: '#f0f8ff',
+                                            border: '1px solid #b3d9ff',
+                                            borderRadius: '8px',
+                                            padding: '12px',
+                                            marginBottom: '15px'
+                                        }}>
+                                            <div style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '8px',
+                                                color: '#0066cc',
+                                                fontWeight: '600'
+                                            }}>
+                                                <CheckCircle size={16} />
+                                                Bureau de Poste Sélectionné
+                                            </div>
+                                            <div style={{
+                                                color: '#333',
+                                                fontSize: '0.9rem',
+                                                marginTop: '4px',
+                                                fontWeight: '500'
+                                            }}>
+                                                {selectedPostOffice}
+                                            </div>
+                                        </div>
+                                    )}
+
                                     {/* Section des Alarmes */}
                                     {activeAlarms.length > 0 && (
                                         <div style={{
@@ -433,6 +571,7 @@ function AlgeriaMapPage({ styles }) {
                                             ))}
                                         </div>
                                     )}
+
 
                                     <div style={{
                                         display: 'grid',
@@ -481,133 +620,8 @@ function AlgeriaMapPage({ styles }) {
                                                 justifyContent: 'center'
                                             }}
                                         />
-                                        <Kpi
-                                            title="taux de livraison"
-                                            value={`${selectedWilayaData.kpi["Taux de livraison"]}%`}
-                                            style={{
-                                                backgroundColor: '#3B82F6',
-                                                padding: '15px',
-                                                borderRadius: '8px',
-                                                border: '1px solid #e9ecef',
-                                                minHeight: '80px',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'center'
-                                            }}
-                                        />
-                                        <Kpi
-                                            title="taux de livraison à temps"
-                                            value={`${selectedWilayaData.kpi["Taux de livraison dans les délais"]}%`}
-                                            style={{
-                                                backgroundColor: '#3B82F6',
-                                                padding: '15px',
-                                                borderRadius: '8px',
-                                                border: '1px solid #e9ecef',
-                                                minHeight: '80px',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'center'
-                                            }}
-                                        />
-                                        <Kpi
-                                            title="nombre d'envois > délai de garde"
-                                            value={selectedWilayaData.kpi["Nombre denvois en dépassement du délai de garde"]}
-                                            style={{
-                                                backgroundColor: '#3B82F6',
-                                                padding: '15px',
-                                                borderRadius: '8px',
-                                                border: '1px solid #e9ecef',
-                                                minHeight: '80px',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'center'
-                                            }}
-                                        />
-                                        <Kpi
-                                            title="nombre d'envois en détention doinière "
-                                            value={selectedWilayaData.kpi["Nombre denvois bloqués en douane"]}
-                                            style={{
-                                                backgroundColor: '#3B82F6',
-                                                padding: '15px',
-                                                borderRadius: '8px',
-                                                border: '1px solid #e9ecef',
-                                                minHeight: '80px',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'center'
-                                            }}
-                                        />
-                                        <Kpi
-                                            title="nombre d'envois retturnés "
-                                            value={selectedWilayaData.kpi["Nombre denvois retournés"]}
 
-                                            style={{
-                                                backgroundColor: '#3B82F6',
-                                                padding: '15px',
-                                                borderRadius: '8px',
-                                                border: '1px solid #e9ecef',
-                                                minHeight: '80px',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'center'
-                                            }}
-                                        />
-                                        <Kpi
-                                            title="délai d'enchainement des envois"
-                                            value={`${selectedWilayaData.kpi["Délai dacheminement des envois de bout en bout "]} j`}
-                                            style={{
-                                                backgroundColor: '#3B82F6',
-                                                padding: '15px',
-                                                borderRadius: '8px',
-                                                border: '1px solid #e9ecef',
-                                                minHeight: '80px',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'center'
-                                            }}
-                                        />
-                                        <Kpi
-                                            title="délai de concentration des envois"
-                                            value={`${selectedWilayaData.kpi["Délai de concentration des envois "]} j`}
-                                            style={{
-                                                backgroundColor: '#3B82F6',
-                                                padding: '15px',
-                                                borderRadius: '8px',
-                                                border: '1px solid #e9ecef',
-                                                minHeight: '80px',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'center'
-                                            }}
-                                        /><Kpi
-                                            title="nombre  d'envois scannés"
-                                            value={selectedWilayaData.kpi["Nombre denvois non scannés"]}
 
-                                            style={{
-                                                backgroundColor: '#3B82F6',
-                                                padding: '15px',
-                                                borderRadius: '8px',
-                                                border: '1px solid #e9ecef',
-                                                minHeight: '80px',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'center'
-                                            }}
-                                        />
-                                        <Kpi
-                                            title="nombre de colis en transit"
-                                            value={`${selectedWilayaData.kpi["Délai de concentration "]} j`}
-                                            style={{
-                                                backgroundColor: '#3B82F6',
-                                                padding: '15px',
-                                                borderRadius: '8px',
-                                                border: '1px solid #e9ecef',
-                                                minHeight: '80px',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'center'
-                                            }}
-                                        />
                                     </div>
                                 </div>
                             ) : (
@@ -627,137 +641,9 @@ function AlgeriaMapPage({ styles }) {
                         </div>
                     </div>
 
-                    {/* Section des Graphiques */}
-                    <div style={{ width: '100%', marginBottom: '20px' }}>
-                        {selectedWilayaData ? (
-                            <div style={{
-                                display: 'flex',
-                                justifyContent: 'space-around',
-                                flexWrap: 'wrap',
-                                gap: '8px'
-                            }}>
-                                <div style={{
-                                    backgroundColor: 'white',
-                                    borderRadius: '8px',
-                                    padding: '19px',
-                                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                                    border: '1px solid #e5e5e5',
-                                    flex: 1.5,
-                                    height: '260px',
-                                    display: 'flex',
-                                }}>
-                                    <LineChart
-                                        data={chartData}
-                                        title="Evolution Mensuelle"
-                                        showLabels={true}
-                                    />
-                                </div>
-
-                                <div style={{
-                                    backgroundColor: 'white',
-                                    borderRadius: '8px',
-                                    padding: '19px',
-                                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                                    border: '1px solid #e5e5e5',
-                                    flex: 1,
-                                    height: '260px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}>
-                                    <BarChart data={defaultData} styles={styles} title="collis livrés" />
-                                </div>
-                            </div>
-                        ) : (
-                            <div style={{
-                                background: 'white',
-                                borderRadius: '15px',
-                                padding: '40px 20px',
-                                boxShadow: '0 8px 25px rgba(0, 238, 255, 0.3)',
-                                textAlign: 'center',
-                                color: '#00eeff',
-                                border: '2px dashed #0099ff'
-                            }}>
-                                <div style={{ fontSize: '3rem', marginBottom: '15px', opacity: 0.5 }}>🗺️</div>
-                                <p style={{ margin: 0, fontSize: '1.1rem' }}>
-                                    Click on any wilaya on the map to see detailed charts and analytics
-                                </p>
-                            </div>
-                        )}
-                    </div>
-
                     {/* Section Actions des Alarmes */}
-                    {selectedWilayaData && activeAlarms.length > 0 && (
-                        <div style={{
-                            background: 'white',
-                            borderRadius: '15px',
-                            padding: '20px',
-                            boxShadow: '0 8px 25px rgba(0,0,0,0.1)',
-                            border: '1px solid rgba(239, 68, 68, 0.2)'
-                        }}>
-                            <h3 style={{
-                                margin: '0 0 20px 0',
-                                color: '#dc2626',
-                                fontSize: '1.2rem',
-                                fontWeight: '600',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '8px'
-                            }}>
-                                <AlertTriangle size={20} />
-                                Actions Recommandées pour {selectedWilayaData.nom}
-                            </h3>
 
-                            {activeAlarms.map((alarm, index) => (
-                                <div key={alarm.code} style={{
-                                    background: '#fef2f2',
-                                    borderRadius: '12px',
-                                    padding: '16px',
-                                    marginBottom: index < activeAlarms.length - 1 ? '16px' : '0',
-                                    border: '1px solid #fecaca'
-                                }}>
-                                    <div style={{
-                                        color: '#dc2626',
-                                        fontSize: '1.1rem',
-                                        fontWeight: '600',
-                                        marginBottom: '8px'
-                                    }}>
-                                        {alarm.name} ({alarm.code})
-                                    </div>
-                                    <div style={{
-                                        color: '#6b7280',
-                                        fontSize: '0.95rem',
-                                        marginBottom: '12px'
-                                    }}>
-                                        {alarm.description}
-                                    </div>
-                                    <div style={{
-                                        color: '#374151',
-                                        fontSize: '0.9rem',
-                                        fontWeight: '500',
-                                        marginBottom: '8px'
-                                    }}>
-                                        Actions à prendre :
-                                    </div>
-                                    <ul style={{
-                                        margin: '0',
-                                        paddingLeft: '20px',
-                                        color: '#4b5563'
-                                    }}>
-                                        {alarm.actions.map((action, actionIndex) => (
-                                            <li key={actionIndex} style={{
-                                                marginBottom: '4px',
-                                                fontSize: '0.85rem',
-                                                lineHeight: '1.4'
-                                            }}>
-                                                {action}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+
 
                     <style jsx>{`
                     .main-content {
@@ -799,4 +685,4 @@ function AlgeriaMapPage({ styles }) {
     );
 }
 
-export default AlgeriaMapPage;
+export default AlgeriaMapPage
